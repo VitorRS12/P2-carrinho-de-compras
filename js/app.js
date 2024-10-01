@@ -3,15 +3,9 @@ let carrinhoDeCompras = [];
 limpar();
 
 
-
-let pessoa = {
-    
-}
-
-
 function adicionar() {
     let produto = document.getElementById('produto').value;
-    let quantidade = document.getElementById('quantidade').value; 
+    let quantidade = parseInt(document.getElementById('quantidade').value); 
 
     if(!produto || produto.trim() === "") {
         alert("Selecione um produto válido");
@@ -41,19 +35,26 @@ function adicionar() {
         carrinhoDeCompras.push(produto); 
     }
     
-    let carrinho = document.getElementById('lista-produtos');
-    carrinho.innerHTML = carrinho.innerHTML + `<section class="carrinho__produtos__produto">
-        <span class="texto-azul">${quantidade}x</span> ${nomeProduto} <span class="texto-azul">R$ ${preco}</span>
-     </section>`;
 
-    totalGeral = totalGeral + preco;
+    let lista = document.getElementById('lista-produtos');
+    lista.innerHTML = ''; 
+
+    carrinhoDeCompras.forEach(p => {
+        lista.innerHTML = lista.innerHTML + `<section class="carrinho__produtos__produto">
+             <span class="texto-azul">${p.quantidade}x</span> ${p.nome} <span class="texto-azul">R$${p.valor.toFixed(2)}</span>
+        </section>`;
+      }); 
+
+    
+    totalGeral = parseFloat(totalGeral + preco);
     let campoTotal = document.getElementById('valor-total'); 
-    campoTotal.textContent = `R$ ${totalGeral}`;
+    campoTotal.textContent = `R$ ${totalGeral.toFixed(2)}`;
     document.getElementById('quantidade').value = 0;
 }
 
 function limpar() {
     totalGeral = 0; 
+    carrinhoDeCompras = []; 
     document.getElementById('lista-produtos').innerHTML = ''; 
-    document.getElementById('valor-total').innerHTML = 'R$ 0'; 
+    document.getElementById('valor-total').textContent = 'R$ 0'; 
 }
